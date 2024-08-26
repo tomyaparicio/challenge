@@ -1,15 +1,18 @@
 <template>
- <DashboardPrincipal></DashboardPrincipal>
+  <v-app>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+      <router-view />
+    </v-app>
 </template>
 
 <script>
-import DashboardPrincipal from '../src/view/DashboardPrincipal.vue';
+
+
 
 export default {
   name: 'App',
-
   components: {
-    DashboardPrincipal,
+ 
   },  
 
   data: () => ({
@@ -18,3 +21,13 @@ export default {
 
 }
 </script>
+
+<style>
+body {
+  font-family: 'Roboto', sans-serif !important;
+}
+
+#app {
+  font-family: 'Roboto', sans-serif !important;
+}
+</style>

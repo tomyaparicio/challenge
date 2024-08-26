@@ -74,4 +74,8 @@ export default {
 .principal {
   padding: 10px;
 }
+
+#app {
+  font-family: 'Roboto', sans-serif !important;
+}
 </style>
