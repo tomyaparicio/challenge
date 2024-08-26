@@ -14,9 +14,15 @@
               <v-fade-transition>
                 <h1 class="login-title">Login</h1>
               </v-fade-transition>
+
+              <!-- Alerta de error -->
+              <v-alert v-if="loginError" type="error" dismissible>
+                Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.
+              </v-alert>
+
               <v-form @submit.prevent="login">
                 <v-text-field
-                  label="Correo Electrónico"
+                  label="Email"
                   v-model="email"
                   prepend-icon="mdi-email"
                   type="email"
@@ -26,7 +32,7 @@
                   :disabled="loading"
                 ></v-text-field>
                 <v-text-field
-                  label="Contraseña"
+                  label="Password"
                   v-model="password"
                   prepend-icon="mdi-lock"
                   type="password"
@@ -65,13 +71,16 @@ export default {
     return {
       email: '',
       password: '',
-      loading: false // Controla el estado de carga
+      loading: false, // Controla el estado de carga
+      loginError: false // Controla la visibilidad del mensaje de error
     };
   },
   methods: {
-    // Validacion del Usuario
+    // Validación del Usuario
     login() {
       this.loading = true; // Muestra el spinner
+      this.loginError = false; // Resetea el mensaje de error
+
       setTimeout(() => {
         const users = JSON.parse(localStorage.getItem('users')) || [];
         const user = users.find(u => u.email === this.email && u.password === this.password);
@@ -80,7 +89,8 @@ export default {
           localStorage.setItem('user', JSON.stringify(user));
           this.$router.push('/'); // Redirigir al dashboard
         } else {
-          alert('Credenciales incorrectas o el usuario no está registrado.');
+          // Mostrar el mensaje de error si las credenciales no son correctas
+          this.loginError = true;
           this.loading = false; // Oculta el spinner si falla la autenticación
         }
       }, 2000); // Simulación de una llamada a una API o proceso de autenticación
@@ -95,7 +105,7 @@ export default {
     }
   },
 
-  // Verifica si un usuario está autenticado al cargar el componente y carga la lista de usuarios delocalStorage.
+  // Verifica si un usuario está autenticado al cargar el componente y carga la lista de usuarios de localStorage.
   created() {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {

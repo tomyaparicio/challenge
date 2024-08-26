@@ -16,7 +16,7 @@
                 </v-fade-transition>
                 <v-form @submit.prevent="register">
                   <v-text-field
-                    label="Correo Electrónico"
+                    label="Email"
                     v-model="email"
                     prepend-icon="mdi-email"
                     type="email"
@@ -26,7 +26,7 @@
                     :disabled="loading"
                   ></v-text-field>
                   <v-text-field
-                    label="Contraseña"
+                    label="Password"
                     v-model="password"
                     prepend-icon="mdi-lock"
                     type="password"
@@ -79,7 +79,7 @@
           localStorage.setItem('users', JSON.stringify(users));
       
           this.$router.push('/login');
-        }, 2000); // Simulación de una llamada a una API o proceso de registro
+        }, 1000); // Simulación de una llamada a una API o proceso de registro
       },
       goToLogin() {
         this.$router.push('/login');

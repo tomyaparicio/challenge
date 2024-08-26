@@ -1,5 +1,9 @@
 <template>
-  <v-navigation-drawer app permanent>
+  <v-navigation-drawer app 
+      absolute
+      bottom
+     
+  >
     <v-list class="drawer">
       <!-- Logo y título -->
       <v-list-item class="logo-container">
@@ -162,7 +166,7 @@ export default {
 }
 
 .drawer-footer {
-  padding-top: 65% !important;
+  margin-top: 250px;
 }
 
 .drawer {

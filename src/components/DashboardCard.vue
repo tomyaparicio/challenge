@@ -1,5 +1,7 @@
 <template>
-  <v-card class="dashboard-card">
+  <v-card 
+  outlined
+  class="dashboard-card" >
     <v-card-text class="dashboard-card-header">
       <v-row align="center" justify="space-between" no-gutters>
         <v-col class="text-uppercase text-subtitle-2">{{ title }}</v-col>
@@ -50,7 +52,7 @@ export default {
 
 <style scoped>
 .dashboard-card {
-  background-color: #f8f9fa;
+  background-color: #ffffff;
   border-radius: 10px;
 }
 

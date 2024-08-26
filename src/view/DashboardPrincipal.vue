@@ -1,12 +1,14 @@
 <template>
   <v-app>
+  <div style="z-index: 1;">
     <SidebarMenu />
+  </div>
     <v-main class="principal">
       <DashboardHeader />
-      <v-container class="fondo" fluid>
+      <v-container fluid>
         
         <!-- Sección 1: Dashboard Cards y Health Monitoring -->
-        <v-row>
+        <v-row  class="fondo" style="z-index: -1;">
           <v-col cols="12" md="7">
             <v-row>
               <v-col cols="12" md="4" class="" >

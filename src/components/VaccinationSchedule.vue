@@ -1,5 +1,5 @@
 <template>
-  <v-card class="custom-card">
+  <v-card outlined class="custom-card">
     <v-card-title>
       <v-row align="center" justify="space-between" no-gutters>
         <v-col cols="auto" class="text-uppercase text-subtitle-2">
@@ -7,19 +7,10 @@
         </v-col>
         <v-spacer></v-spacer>
         <v-col cols="1">
-          <span
-            style="color: #607d8b; font-size: 30px;"
-            class="mdi mdi-magnify"
-          ></span>
+          <span style="color: #607d8b; font-size: 30px;" class="mdi mdi-magnify"></span>
         </v-col>
         <v-col cols="2">
-          <v-select
-            label="By type"
-            dense
-            outlined
-            hide-details
-            class="select"
-          ></v-select>
+          <v-select label="By type" dense outlined hide-details class="select"></v-select>
         </v-col>
       </v-row>
     </v-card-title>
@@ -38,47 +29,32 @@
 
         <!-- Slot para personalizar la columna 'Type' -->
         <template v-slot:[`item.type`]="{ item }">
-          <v-chip
-            v-if="item.type === 'Overdue'"
-            label
-            outlined
-            class="ma-0 chip1"
-            style="background: #FCEBEF !important ;"
-          >
-            {{ item.type }}
-          </v-chip>
-          <v-chip
-            v-else-if="item.type === 'Noncore'" 
-            label
-            outlined
-            class="ma-0 chip2"
-            style="background: #FCF5EB !important;"
-          >
-            {{ item.type }}
-          </v-chip>
-          <v-chip
-            v-else-if="item.type === 'Core'"
-            label
-            outlined
-            class="ma-0 chip3"
-            style="background: #EAF8F1 !important;"
-          >
-            {{ item.type }}
-          </v-chip>
+          <div class="chip-container">
+            <span
+              :class="{
+                'chip chip-overdue': item.type === 'Overdue',
+                'chip chip-noncore': item.type === 'Noncore',
+                'chip chip-core': item.type === 'Core'
+              }"
+            >
+              {{ item.type }}
+            </span>
+          </div>
         </template>
 
         <template v-slot:[`item.date`]="{ item }">
-        <h4>{{ item.date }}</h4>
+          <h4>{{ item.date }}</h4>
         </template>
+
         <!-- Slot para personalizar la columna 'Veterinarian' -->
         <template v-slot:[`item.veterinarian`]="{ item }">
-          <v-chip
-            :class="item.veterinarian === 'Find veterinarian' ? 'veterinarian-highlight' : 'veterinarian-default'"
-            outlined
-            class="ma-0 veterinarian-chip"
+          <div
+            class="btn-veterinarian"
+            :class="item.veterinarian === 'Find veterinar' ? 'veterinarian-highlight' : 'veterinarian-default'"
+            @click="handleVeterinarianClick(item.veterinarian)"
           >
-            <span>{{ item.veterinarian }}</span>
-          </v-chip>
+            {{ item.veterinarian }}
+          </div>
         </template>
       </v-data-table>
     </v-card-text>
@@ -100,7 +76,7 @@ export default {
           name: 'Rabies',
           type: 'Overdue',
           date: '01 Dec 2023',
-          veterinarian: 'Find veterinarian',
+          veterinarian: 'Find veterinar',
         },
         {
           name: 'Bordetella',
@@ -123,13 +99,16 @@ export default {
       ],
     };
   },
+  methods: {
+  },
 };
 </script>
 
 <style scoped>
+/* Estilos de la tabla */
 .v-data-table {
   border-radius: 8px !important;
-  border: 2px solid #DAE3F8 !important; /* Color del borde de la tabla */
+  border: 2px solid #DAE3F8 !important;
 }
 
 .v-card-title {
@@ -138,48 +117,63 @@ export default {
 
 .table-content {
   margin: 0;
-  padding: 30% 0; /* Ajusta el padding para aumentar el espaciado vertical */
+  padding: 30% 0;
 }
 
 .custom-table .v-data-table__wrapper {
-  padding-bottom: 20px !important; /* Aumenta el espaciado entre las filas */
+  padding-bottom: 20px !important;
 }
 
-.chip1 { 
-  color: #D03258; 
-  border-color: #c1e1f7;
-  border-radius: 10px !important;
+/* Estilos de los chips */
+.chip-container {
+  display: flex;
+  align-items: center;
+}
+
+.chip {
+  padding: 0.2em 0.6em;
+  border-radius: 12px;
   font-weight: bold;
+  font-size: 0.9em;
 }
 
-.chip2 {
-  color: #F2A735; 
-  border-color: #F7E1C1;
-  border-radius: 10px !important;
+.chip-overdue {
+  background-color: #FCEBEF;
+  color: #D03258;
+}
+
+.chip-noncore {
+  background-color: #FCF5EB;
+  color: #F2A735;
+}
+
+.chip-core {
+  background-color: #EAF8F1;
+  color: #27A468;
+}
+
+/* Estilos de los botones */
+.btn-veterinarian {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
   font-weight: bold;
+  text-align: center;
 }
 
-.chip3 {
-  color: #27A468; 
-  border-color: #BDE8D3;
-  border-radius: 15% !important;
-  font-weight: bold;
+.veterinarian-highlight {
+  background-color: #1976d2;
+  color: white;
 }
 
-.v-chip.veterinarian-highlight {
-  background-color: #1976d2 !important; 
-  color: rgb(0, 0, 0) !important; 
-  border-color: #1976d2 !important;
-}
-
-.v-chip.veterinarian-default {
-  background: rgb(184, 27, 27) !important; 
-  color: #607d8b !important; 
-  border-color: #cfd8dc !important;
+.veterinarian-default {
+  background-color: #ffffff;
+  color: #607d8b;
+  border: 1px solid #DAE3F8;
 }
 
 .custom-card {
   border-radius: 10px !important;
-
 }
 </style>
