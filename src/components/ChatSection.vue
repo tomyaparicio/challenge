@@ -1,14 +1,14 @@
 <template>
     <v-card>
-      <v-card-title>Chat</v-card-title>
+      <v-card-title class="text-uppercase text-subtitle-2">Chat</v-card-title>
       <v-card-text>
         <v-list dense>
           <v-list-item v-for="(item, index) in chatMessages" :key="index">
-            <v-list-item-avatar>
-              <v-avatar>
+           
+              <div class="avatarpng"> 
                 <img :src="item.avatar" alt="Avatar">
-              </v-avatar>
-            </v-list-item-avatar>
+              </div>
+          
             <v-list-item-content>
               <v-list-item-title>{{ item.name }}</v-list-item-title>
               <v-list-item-subtitle>{{ item.message }}</v-list-item-subtitle>
@@ -24,13 +24,20 @@
     data() {
       return {
         chatMessages: [
-          { name: 'Helen Brooks', message: 'Luna has been scratching her ears...', avatar: 'path_to_avatar' },
-          { name: 'Kathryn Murphy', message: 'The best way to treat an ear infection...', avatar: 'path_to_avatar' },
-          { name: 'James Grey', message: 'You should follow the instructions...', avatar: 'path_to_avatar' },
-          { name: 'Jim Brown', message: 'Hi, I have a question about my cat.', avatar: 'path_to_avatar' },
+          { name: 'Helen Brooks', message: 'Luna has been scratching her ears a lot lately and shaking her head...', avatar: require(`@/assets/foto1svg.svg`)},
+          { name: 'Kathryn Murphy', message: 'The best way to treat an ear infection...', avatar: require(`@/assets/foto2svg.svg`) },
+          { name: 'James Grey', message: 'You should follow the instructions...', avatar: require(`@/assets/foto3svg.svg`) },
+          { name: 'Jim Brown', message: 'Hi, I have a question about my cat.', avatar: require(`@/assets/foto4svg.svg`) },
         ],
       };
     },
   };
-  </script>
-  
+</script>
+
+
+<style scoped>
+.avatarpng {
+  margin-right: 4%;
+  margin-bottom: 3%;
+}
+</style>
