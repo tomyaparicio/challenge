@@ -29,6 +29,10 @@ Antes de comenzar, asegúrate de tener instalados los siguientes componentes:
     ```bash
     npm install
     ```
+- Vue.js
+- Vuetify
+- Vue Router
+- vue-chartjs
 
 ## Uso
 
