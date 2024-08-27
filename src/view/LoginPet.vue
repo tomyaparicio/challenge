@@ -26,6 +26,7 @@
                   v-model="email"
                   prepend-icon="mdi-email"
                   type="email"
+                  :rules="[rules.required, rules.email]"
                   outlined
                   dense
                   required
@@ -35,10 +36,12 @@
                   label="Password"
                   v-model="password"
                   prepend-icon="mdi-lock"
-                  type="password"
+                  :type="show1 ? 'text' : 'password'"
+                  :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                   dense
                   outlined
                   required
+                   @click:append="show1 = !show1"
                   :disabled="loading"
                 ></v-text-field>
                 <v-btn :disabled="loading" style="background: #3788e5; color: white" type="submit" block large class="loginBtn mb-4">
@@ -71,8 +74,17 @@ export default {
     return {
       email: '',
       password: '',
+      show1: false,
       loading: false, // Controla el estado de carga
-      loginError: false // Controla la visibilidad del mensaje de error
+      loginError: false, // Controla la visibilidad del mensaje de error
+      rules: {
+          required: value => !!value || 'Required.',
+          counter: value => value.length <= 20 || 'Max 20 characters',
+          email: value => {
+            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            return pattern.test(value) || 'Invalid e-mail.'
+          },
+        },
     };
   },
   methods: {

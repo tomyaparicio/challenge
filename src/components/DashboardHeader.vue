@@ -1,5 +1,6 @@
 <template>
-    <v-app-bar color="white" flat>
+    <v-app-bar color="white" flat
+    class="search-input">
       <v-text-field
         dense
         outlined
@@ -8,6 +9,7 @@
         prepend-inner-icon="mdi-magnify"
         placeholder="Search"
         hide-details
+        class="search-input"
       ></v-text-field>
       <v-spacer></v-spacer>
       <v-btn color="primary" @click="addWidget">
@@ -25,4 +27,11 @@
     },
   };
   </script>
+
+ <style>
+.search-input {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+</style>
   

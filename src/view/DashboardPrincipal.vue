@@ -1,23 +1,23 @@
 <template>
   <v-app>
-  <div style="z-index: 1;">
-    <SidebarMenu />
-  </div>
-    <v-main class="principal">
+    <div style="z-index: 1;">
+      <SidebarMenu />
+    </div>
+    <v-main>
       <DashboardHeader />
       <v-container fluid>
-        
+
         <!-- Sección 1: Dashboard Cards y Health Monitoring -->
-        <v-row  class="fondo" style="z-index: -1;">
-          <v-col cols="12" md="7">
+        <v-row class="fondo">
+          <v-col cols="12" md="7" sm="12">
             <v-row>
-              <v-col cols="12" md="4" class="" >
+              <v-col cols="12" sm="4" xs="12">
                 <DashboardCard title="Activity" subtitle="Daily" :value="25" color="red" />
               </v-col>
-              <v-col cols="12" md="4">
+              <v-col cols="12" sm="4" xs="12">
                 <DashboardCard title="Sleep" subtitle="Weekly" :value="79" color="green" />
               </v-col>
-              <v-col cols="12" md="4">
+              <v-col cols="12" sm="4" xs="12">
                 <DashboardCard title="Wellness" subtitle="Weekly" :value="52" color="orange" />
               </v-col>
             </v-row>
@@ -29,7 +29,7 @@
           </v-col>
 
           <!-- Sección 2: Vaccination Schedule y Chat Section -->
-          <v-col cols="12" md="5">
+          <v-col cols="12" md="5" sm="12">
             <v-row>
               <v-col cols="12">
                 <VaccinationSchedule />
@@ -71,10 +71,7 @@ export default {
 <style>
 .fondo {
   background-color: #F2F5FA;
-  padding: 30px;
-}
-.principal {
-  padding: 10px;
+  padding: 15px;
 }
 
 #app {

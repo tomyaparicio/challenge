@@ -23,7 +23,7 @@
                   outlined
                   dense
                   required
-                  :disabled="isVerified"
+                  :disabled="isVerified || loading"
                 ></v-text-field>
 
                 <!-- Si el correo está verificado, mostrar el campo para la nueva contraseña -->
@@ -32,26 +32,37 @@
                   label="Nueva Contraseña"
                   v-model="newPassword"
                   prepend-icon="mdi-lock-reset"
-                  type="password"
+                  :type="show1 ? 'text' : 'password'"
+                  :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                  @click:append="show1 = !show1"
                   dense
                   outlined
                   required
+                  :disabled="loading"
                 ></v-text-field>
 
-                <v-btn color="primary" type="submit" block large class="recoverBtn mb-4">
-                  {{ isVerified ? 'Update Password' : 'Verify Email' }}
+                <v-btn :disabled="loading" color="primary" type="submit" block large class="recoverBtn mb-4">
+                  <template v-if="!loading">
+                    {{ isVerified ? 'Update Password' : 'Verify Email' }}
+                  </template>
+                  <template v-else>
+                    <v-progress-circular indeterminate color="white" size="24"></v-progress-circular>
+                  </template>
                 </v-btn>
               </v-form>
               <v-divider class="my-4"></v-divider>
-              <v-btn color="dark" block @click="goToLogin" large class="recoverBtn mb-2">
+              <v-btn color="dark" block @click="goToLogin" large class="recoverBtn mb-2" :disabled="loading">
                 Back to Login
               </v-btn>
 
-              <!-- Mensajes de error o éxito -->
-              <v-alert v-if="passwordUpdated" type="success" class="mt-4">
+              <!-- Mensajes de validación, error o éxito -->
+              <v-alert v-if="isVerified && !passwordUpdated" type="success" class="mt-4" outlined>
+                Your email has been verified. Please enter a new password.
+              </v-alert>
+              <v-alert v-if="passwordUpdated" type="success" class="mt-4" outlined>
                 Your password has been updated successfully.
               </v-alert>
-              <v-alert v-if="verificationFailed" type="error" class="mt-4">
+              <v-alert v-if="verificationFailed" type="error" class="mt-4" outlined>
                 {{ isVerified ? 'Error updating password. Please try again.' : 'Email not found.' }}
               </v-alert>
             </v-card-text>
@@ -70,28 +81,39 @@ export default {
       newPassword: '',
       isVerified: false,
       passwordUpdated: false,
-      verificationFailed: false
+      verificationFailed: false,
+      show1: false,
+      loading: false // Agregando el estado de carga
     };
   },
   methods: {
     verifyAndUpdatePassword() {
-      const users = JSON.parse(localStorage.getItem('users')) || [];
-      const user = users.find(u => u.email === this.email);
-      
-      if (user && !this.isVerified) {
-        // Si el correo está registrado, permitir al usuario ingresar la nueva contraseña
-        this.isVerified = true;
-        this.verificationFailed = false;
-      } else if (this.isVerified && this.newPassword) {
-        // Actualiza la contraseña si el correo ya fue verificado
-        user.password = this.newPassword;
-        localStorage.setItem('users', JSON.stringify(users));
-        this.passwordUpdated = true;
-        this.verificationFailed = false;
-      } else {
-        // Si la verificación falla, muestra un mensaje de error
-        this.verificationFailed = true;
-      }
+      this.loading = true; // Inicia el estado de carga
+      setTimeout(() => { // Simulamos una demora para la operación (puedes ajustar esto)
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const user = users.find(u => u.email === this.email);
+
+        if (user && !this.isVerified) {
+          // Si el correo está registrado, permitir al usuario ingresar la nueva contraseña
+          this.isVerified = true;
+          this.verificationFailed = false;
+        } else if (this.isVerified && this.newPassword) {
+          // Actualiza la contraseña si el correo ya fue verificado
+          user.password = this.newPassword;
+          localStorage.setItem('users', JSON.stringify(users));
+          this.passwordUpdated = true;
+          this.verificationFailed = false;
+          
+          // Esperar 3 segundos antes de redirigir al login
+          setTimeout(() => {
+            this.$router.push('/login');
+          }, 1000);
+        } else {
+          // Si la verificación falla, muestra un mensaje de error
+          this.verificationFailed = true;
+        }
+        this.loading = false; // Finaliza el estado de carga
+      }, 2000); // Simulamos una espera de 2 segundos antes de finalizar la operación
     },
     goToLogin() {
       this.$router.push('/login');
@@ -173,5 +195,12 @@ export default {
   height: 60px;
   margin-bottom: 10px;
   margin-top: 10px;
+}
+
+.v-alert {
+  border-radius: 8px;
+  background-color: #e0f7fa;
+  color: #00796b;
+  font-weight: bold;
 }
 </style>

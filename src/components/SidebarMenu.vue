@@ -150,7 +150,6 @@ export default {
   max-width: 24px;
   margin-right: 8px;
 }
-
 .v-navigation-drawer {
   display: flex;
   flex-direction: column;
