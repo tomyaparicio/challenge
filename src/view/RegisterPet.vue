@@ -97,41 +97,49 @@ export default {
   },
   methods: {
     register() {
-  // 1. Verificar si el formulario es válido
-  if (this.$refs.form.validate()) {
-    // 2. Si es válido, comienza el proceso de registro
-    this.loading = true;
+    // Verificamos si el formulario es válido utilizando las reglas de validación establecidas
+    if (this.$refs.form.validate()) {
+        // Si el formulario es válido, activamos el estado de carga
+        this.loading = true;
 
-    setTimeout(() => {
-      // 3. Crear un objeto 'user' con el email y la contraseña ingresados
-      const user = {
-        email: this.email,
-        password: this.password,
-      };
+        // Simulamos un retardo de 1 segundo utilizando `setTimeout`, imitando el tiempo de espera de una llamada a una API
+        setTimeout(() => {
+            // Creamos un objeto `user` con las propiedades `email` y `password` obtenidas del formulario
+            const user = {
+                email: this.email,
+                password: this.password,
+            };
 
-      // 4. Recuperar los usuarios previamente guardados desde localStorage (si existen)
-      let users = JSON.parse(localStorage.getItem('users')) || [];
+            // Recuperamos el array de usuarios almacenado en `localStorage` o, si no existe, inicializamos un array vacío
+            let users = JSON.parse(localStorage.getItem('users')) || [];
 
-      // 5. Agregar el nuevo usuario al array de usuarios
-      users.push(user);
+            // Añadimos el nuevo usuario al array de usuarios
+            users.push(user);
 
-      // 6. Guardar el array actualizado de usuarios nuevamente en localStorage
-      localStorage.setItem('users', JSON.stringify(users));
+            // Guardamos el array actualizado de usuarios en `localStorage`
+            localStorage.setItem('users', JSON.stringify(users));
 
-      // 7. Redirigir al usuario a la página de inicio de sesión
+            // Verificamos si la ruta actual no es `/login` para evitar redirección redundante
+            if (this.$route.path !== '/login') {
+                // Si no estamos ya en la ruta `/login`, redirigimos al usuario a esa página
+                this.$router.push('/login');
+            }
+        }, 1000); // El código dentro de este bloque se ejecutará después de 1 segundo
+    } else {
+        // Si la validación del formulario falla, desactivamos el estado de carga y mostramos una alerta
+        this.loading = false;
+        alert('Please enter a valid email and password.');
+    }
+},
+  goToLogin() {
+    // Evitar redirección redundante
+    if (this.$route.path !== '/login') {
       this.$router.push('/login');
-    }, 1000); // 8. Simular un retardo de 1 segundo para imitar una llamada a una API
-  } else {
-    // 9. Si el formulario no es válido, mostrar un mensaje de error
-    this.loading = false;
-    alert('Please enter a valid email and password.');
-  }
+    }
+  },
 },
 
-    goToLogin() {
-      this.$router.push('/login');
-    },
-  },
+
 };
 </script>
 
